@@ -1,0 +1,4 @@
+curl -X PUT "http://localhost:4000/customers/1" \
+-H "Content-Type: application/json" \
+-H "x-api-key: your-secret-api-key-here" \
+-d '{"firstName":"John Updated","lastName":"Doe Updated","email":"john.updated@example.com","phone":"555-123-0000","address":{"street":"123 Updated St","city":"New York Updated","state":"NY","zipCode":"10001"}}'

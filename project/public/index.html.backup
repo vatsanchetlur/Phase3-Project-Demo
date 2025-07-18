@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer REST API Server - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #666;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        .server-info {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .endpoint {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 60px;
+            text-align: center;
+        }
+        .get { background-color: #28a745; }
+        .post { background-color: #007bff; }
+        .put { background-color: #ffc107; color: #000; }
+        .delete { background-color: #dc3545; }
+        .security { background-color: #6f42c1; }
+        .cmd { background-color: #17a2b8; }
+        .search { background-color: #fd7e14; }
+        .url {
+            font-family: monospace;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .description {
+            margin: 10px 0;
+            color: #666;
+        }
+        .test-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .test-link:hover {
+            background-color: #0056b3;
+        }
+        .test-link.disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .feature {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .status {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Customer REST API Server</h1>
+        
+        <div class="server-info">
+            <h3>Server Information</h3>
+            <p><strong>Server URL:</strong> http://localhost:4000</p>
+            <p><strong>Database:</strong> MongoDB (custdb.customers)</p>
+            <p><strong>Status:</strong> <span class="status">Running</span></p>
+            <p><strong>Default Customers:</strong> 3 example records</p>
+            <p><strong>API Key:</strong> Required for all endpoints (x-api-key header)</p>
+        </div>
+
+        <h2>📋 Available API Endpoints</h2>
+        
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <span class="url">/customers/reset</span>
+            <div class="description">Reset customer collection to 3 example records</div>
+            <span class="test-link disabled">🔄 Use API client (POST request required)</span>
+            <a href="javascript:void(0)" class="test-link" onclick="runResetTest(); return false;" style="margin-left: 10px;">🧪 Run RESET Test</a>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <span class="url">/customers</span>
+            <div class="description">Retrieve all customers from the database</div>
+            <a href="javascript:void(0)" class="test-link" onclick="testGetAllCustomers(); return false;">🔗 Test Endpoint</a>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <span class="url">/customers/:id</span>
+            <div class="description">Retrieve a specific customer by their ID</div>
+            <a href="javascript:void(0)" class="test-link" onclick="testGetById(); return false;">🔗 Test with Sample ID</a>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span>
+            <span class="url">/customers</span>
+            <div class="description">Create a new customer record</div>
+            <div class="description">
+                <strong>Required JSON fields:</strong>
+                <pre style="background-color: #f8f9fa; padding: 10px; border-radius: 4px; margin: 10px 0; font-size: 12px;">
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "1234567890",
+  "address": {
+    "street": "123 Main St",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "10001"
+  }
+}</pre>
+            </div>
+            <span class="test-link disabled">📝 Use API client (POST request required)</span>
+            <a href="javascript:void(0)" class="test-link" onclick="runTestConnection(); return false;" style="margin-left: 10px;">🧪 Run POST Test</a>
+        </div>
+
+        <div class="endpoint">
+            <span class="method put">PUT</span>
+            <span class="url">/customers/:id</span>
+            <div class="description">Update an existing customer by their ID</div>
+            <span class="test-link disabled">📝 Use API client (PUT request required)</span>
+            <a href="javascript:void(0)" class="test-link" onclick="runPutTest(); return false;" style="margin-left: 10px;">🧪 Run PUT Test</a>
+        </div>
+
+        <div class="endpoint">
+            <span class="method delete">DELETE</span>
+            <span class="url">/customers/:id</span>
+            <div class="description">Delete a customer by their ID</div>
+            <span class="test-link disabled">⚠️ Use API client (DELETE request required)</span>
+            <a href="javascript:void(0)" class="test-link" onclick="runDeleteTest(); return false;" style="margin-left: 10px;">🧪 Run DELETE Test</a>
+        </div>
+
+        <h2> API Key Protection - Optional Work</h2>
+        
+        <div class="endpoint">
+            <span class="method security">SECURITY</span>
+            <span class="url">All endpoints require x-api-key header</span>
+            <div class="description">
+                All customer endpoints are protected by API key middleware that validates the x-api-key header.
+                <br><br>
+                <strong>Required Header:</strong> <code>x-api-key: your-secret-api-key-here</code>
+                <br><br>
+                <strong>Error Responses:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>401 Unauthorized - Missing API key</li>
+                    <li>403 Forbidden - Invalid API key</li>
+                </ul>
+            </div>
+            <a href="javascript:void(0)" class="test-link" onclick="runApiKeyTest(); return false;">🔐 Test API Key Protection</a>
+        </div>
+
+        <h2>🧪 API Parameter Testing - Command Line Support</h2>
+        
+        <div class="endpoint">
+            <span class="method security">CMD</span>
+            <span class="url">Server startup with API key parameters</span>
+            <div class="description">
+                Test all combinations of API key configuration including environment variables and command line arguments.
+                <br><br>
+                <strong>Priority Order:</strong> Command Line Arguments > Environment Variables
+            </div>
+            <a href="javascript:void(0)" class="test-link" onclick="runApiParameterTest(); return false;">🧪 Test API Parameters</a>
+        </div>
+
+        <h2>� Search Endpoint Testing</h2>
+        
+        <div class="endpoint">
+            <span class="method search">SEARCH</span>
+            <span class="url">/customers/find - Query-based customer search</span>
+            <div class="description">
+                Test the search endpoint that finds customers based on query parameters. No API key required.
+                <br><br>
+                <strong>Supported Fields:</strong> id, email, password
+                <br>
+                <strong>Single query parameter only</strong>
+            </div>
+            <a href="javascript:void(0)" class="test-link" onclick="runSearchEndpointTest(); return false;">🔍 Test Search Endpoint</a>
+        </div>
+
+        <h2>�🔧 Server Features</h2>
+        
+        <div class="features">
+            <div class="feature">
+                <h4>✅ Complete CRUD Operations</h4>
+                <p>Full Create, Read, Update, Delete functionality for customer records</p>
+            </div>
+            <div class="feature">
+                <h4>✅ MongoDB Integration</h4>
+                <p>Native MongoDB client with custdb database and customers collection</p>
+            </div>
+            <div class="feature">
+                <h4>✅ Data Validation</h4>
+                <p>Comprehensive validation for all customer data fields</p>
+            </div>
+            <div class="feature">
+                <h4>✅ Error Handling</h4>
+                <p>Proper HTTP status codes and error messages</p>
+            </div>
+            <div class="feature">
+                <h4>✅ Development Tools</h4>
+                <p>Reset endpoint and sample data for development</p>
+            </div>
+            <div class="feature">
+                <h4>✅ Static File Serving</h4>
+                <p>Serves files from public directory including this home page</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Customer REST API Server | NodeJS + Express + MongoDB</p>
+        </div>
+    </div>
+
+    <script>
+        // API Key headers
+        const headers = {
+            'x-api-key': 'your-secret-api-key-here',
+            'Content-Type': 'application/json'
+        };
+
+        async function testGetById() {
+            try {
+                // First get all customers to find a valid ID
+                const response = await fetch('/customers', { headers });
+                const data = await response.json();
+                
+                if (data.success && data.data.length > 0) {
+                    const firstCustomerId = data.data[0].customerId;
+                    // Since we can't pass headers to window.open, we'll make another fetch request
+                    // to get the customer data and display it
+                    const customerResponse = await fetch(`/customers/${firstCustomerId}`, { headers });
+                    const customerData = await customerResponse.json();
+                    
+                    if (customerData.success) {
+                        // Open a new tab with the customer data
+                        const newWindow = window.open('', '_blank');
+                        newWindow.document.write(`
+                            <html>
+                                <head>
+                                    <title>Customer ${firstCustomerId}</title>
+                                    <style>
+                                        body { font-family: Arial, sans-serif; margin: 20px; }
+                                        pre { background-color: #f5f5f5; padding: 15px; border-radius: 5px; }
+                                    </style>
+                                </head>
+                                <body>
+                                    <h1>Customer Details</h1>
+                                    <pre>${JSON.stringify(customerData.data, null, 2)}</pre>
+                                </body>
+                            </html>
+                        `);
+                    } else {
+                        alert('Error fetching customer details: ' + customerData.message);
+                    }
+                } else {
+                    alert('No customers found. Please reset the database first.');
+                }
+            } catch (error) {
+                alert('Error fetching customers: ' + error.message);
+            }
+        }
+
+        async function testGetAllCustomers() {
+            try {
+                const response = await fetch('/customers', { headers });
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Open a new tab with the customers data
+                    const newWindow = window.open('', '_blank');
+                    newWindow.document.write(`
+                        <html>
+                            <head>
+                                <title>All Customers</title>
+                                <style>
+                                    body { 
+                                        font-family: Arial, sans-serif; 
+                                        margin: 20px; 
+                                        background-color: #f5f5f5;
+                                    }
+                                    .container { 
+                                        background-color: white; 
+                                        padding: 20px; 
+                                        border-radius: 8px; 
+                                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                    }
+                                    pre { 
+                                        background-color: #f8f9fa; 
+                                        padding: 15px; 
+                                        border-radius: 5px; 
+                                        overflow-x: auto;
+                                        white-space: pre-wrap;
+                                    }
+                                    .stats {
+                                        background-color: #e7f3ff;
+                                        padding: 15px;
+                                        border-radius: 5px;
+                                        margin-bottom: 20px;
+                                    }
+                                </style>
+                            </head>
+                            <body>
+                                <div class="container">
+                                    <h1>All Customers</h1>
+                                    <div class="stats">
+                                        <h3>📊 Statistics</h3>
+                                        <p><strong>Total Customers:</strong> ${data.count}</p>
+                                        <p><strong>Success:</strong> ${data.success}</p>
+                                    </div>
+                                    <h3>📋 Customer Data</h3>
+                                    <pre>${JSON.stringify(data.data, null, 2)}</pre>
+                                </div>
+                            </body>
+                        </html>
+                    `);
+                } else {
+                    alert('Error fetching customers: ' + data.message);
+                }
+            } catch (error) {
+                alert('Error fetching customers: ' + error.message);
+            }
+        }
+
+        async function runTestConnection() {
+            try {
+                // Show loading message
+                const loadingWindow = window.open('', '_blank');
+                loadingWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>Connection Test Results</title>
+                            <style>
+                                body { 
+                                    font-family: Arial, sans-serif; 
+                                    margin: 20px; 
+                                    background-color: #f5f5f5;
+                                }
+                                .container { 
+                                    background-color: white; 
+                                    padding: 20px; 
+                                    border-radius: 8px; 
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                }
+                                .loading { 
+                                    text-align: center; 
+                                    color: #666; 
+                                }
+                                .result { 
+                                    background-color: #f8f9fa; 
+                                    padding: 15px; 
+                                    border-radius: 5px; 
+                                    border-left: 4px solid #007bff;
+                                    margin: 10px 0;
+                                }
+                                .success { 
+                                    border-left-color: #28a745; 
+                                }
+                                .error { 
+                                    border-left-color: #dc3545; 
+                                }
+                                pre { 
+                                    background-color: #f8f9fa; 
+                                    padding: 10px; 
+                                    border-radius: 4px; 
+                                    overflow-x: auto;
+                                    white-space: pre-wrap;
+                                    font-size: 12px;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>🧪 POST Endpoint Test Results</h1>
+                                <div class="loading">
+                                    <p>🔄 Running test-post-endpoint.js...</p>
+                                    <p>Please wait...</p>
+                                </div>
+                            </div>
+                        </body>
+                    </html>
+                `);
+
+                // Execute the test
+                const response = await fetch('/test-connection');
+                const data = await response.json();
+
+                // Update the window with results
+                const resultClass = data.success ? 'success' : 'error';
+                const statusIcon = data.success ? '✅' : '❌';
+                const statusText = data.success ? 'Success' : 'Failed';
+
+                loadingWindow.document.body.innerHTML = `
+                    <div class="container">
+                        <h1>🧪 POST Endpoint Test Results</h1>
+                        <div class="result ${resultClass}">
+                            <h3>${statusIcon} Test ${statusText}</h3>
+                            <p><strong>Exit Code:</strong> ${data.exitCode}</p>
+                            <p><strong>Timestamp:</strong> ${data.timestamp}</p>
+                        </div>
+                        
+                        ${data.output ? `
+                            <div class="result">
+                                <h3>📋 Output:</h3>
+                                <pre>${data.output}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        ${data.error ? `
+                            <div class="result error">
+                                <h3>⚠️ Error Output:</h3>
+                                <pre>${data.error}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="result">
+                            <h3>📝 Test Summary:</h3>
+                            <p>This test validates the POST /customers endpoint with various test cases including valid data, invalid data, duplicate emails, and verification.</p>
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                alert('Error running connection test: ' + error.message);
+            }
+        }
+
+        async function runPutTest() {
+            try {
+                // Show loading message
+                const loadingWindow = window.open('', '_blank');
+                loadingWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>PUT Endpoint Test Results</title>
+                            <style>
+                                body { 
+                                    font-family: Arial, sans-serif; 
+                                    margin: 20px; 
+                                    background-color: #f5f5f5;
+                                }
+                                .container { 
+                                    background-color: white; 
+                                    padding: 20px; 
+                                    border-radius: 8px; 
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                }
+                                .loading { 
+                                    text-align: center; 
+                                    color: #666; 
+                                }
+                                .result { 
+                                    background-color: #f8f9fa; 
+                                    padding: 15px; 
+                                    border-radius: 5px; 
+                                    border-left: 4px solid #007bff;
+                                    margin: 10px 0;
+                                }
+                                .success { 
+                                    border-left-color: #28a745; 
+                                }
+                                .error { 
+                                    border-left-color: #dc3545; 
+                                }
+                                pre { 
+                                    background-color: #f8f9fa; 
+                                    padding: 10px; 
+                                    border-radius: 4px; 
+                                    overflow-x: auto;
+                                    white-space: pre-wrap;
+                                    font-size: 12px;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>🧪 PUT Endpoint Test Results</h1>
+                                <div class="loading">
+                                    <p>🔄 Running test-put-endpoint.js...</p>
+                                    <p>Please wait...</p>
+                                </div>
+                            </div>
+                        </body>
+                    </html>
+                `);
+
+                // Execute the test
+                const response = await fetch('/test-put');
+                const data = await response.json();
+
+                // Update the window with results
+                const resultClass = data.success ? 'success' : 'error';
+                const statusIcon = data.success ? '✅' : '❌';
+                const statusText = data.success ? 'Success' : 'Failed';
+
+                loadingWindow.document.body.innerHTML = `
+                    <div class="container">
+                        <h1>🧪 PUT Endpoint Test Results</h1>
+                        <div class="result ${resultClass}">
+                            <h3>${statusIcon} Test ${statusText}</h3>
+                            <p><strong>Exit Code:</strong> ${data.exitCode}</p>
+                            <p><strong>Timestamp:</strong> ${data.timestamp}</p>
+                        </div>
+                        
+                        ${data.output ? `
+                            <div class="result">
+                                <h3>📋 Output:</h3>
+                                <pre>${data.output}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        ${data.error ? `
+                            <div class="result error">
+                                <h3>⚠️ Error Output:</h3>
+                                <pre>${data.error}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="result">
+                            <h3>📝 Test Summary:</h3>
+                            <p>This test validates the PUT /customers/:id endpoint with various test cases including valid updates, invalid IDs, non-existent customers, and missing fields.</p>
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                alert('Error running PUT test: ' + error.message);
+            }
+        }
+
+        async function runDeleteTest() {
+            try {
+                // Show loading message
+                const loadingWindow = window.open('', '_blank');
+                loadingWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>DELETE Endpoint Test Results</title>
+                            <style>
+                                body { 
+                                    font-family: Arial, sans-serif; 
+                                    margin: 20px; 
+                                    background-color: #f5f5f5;
+                                }
+                                .container { 
+                                    background-color: white; 
+                                    padding: 20px; 
+                                    border-radius: 8px; 
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                }
+                                .loading { 
+                                    text-align: center; 
+                                    color: #666; 
+                                }
+                                .result { 
+                                    background-color: #f8f9fa; 
+                                    padding: 15px; 
+                                    border-radius: 5px; 
+                                    border-left: 4px solid #007bff;
+                                    margin: 10px 0;
+                                }
+                                .success { 
+                                    border-left-color: #28a745; 
+                                }
+                                .error { 
+                                    border-left-color: #dc3545; 
+                                }
+                                pre { 
+                                    background-color: #f8f9fa; 
+                                    padding: 10px; 
+                                    border-radius: 4px; 
+                                    overflow-x: auto;
+                                    white-space: pre-wrap;
+                                    font-size: 12px;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>🧪 DELETE Endpoint Test Results</h1>
+                                <div class="loading">
+                                    <p>🔄 Running test-delete-endpoint.js...</p>
+                                    <p>Please wait...</p>
+                                </div>
+                            </div>
+                        </body>
+                    </html>
+                `);
+
+                // Execute the test
+                const response = await fetch('/test-delete');
+                const data = await response.json();
+
+                // Update the window with results
+                const resultClass = data.success ? 'success' : 'error';
+                const statusIcon = data.success ? '✅' : '❌';
+                const statusText = data.success ? 'Success' : 'Failed';
+
+                loadingWindow.document.body.innerHTML = `
+                    <div class="container">
+                        <h1>🧪 DELETE Endpoint Test Results</h1>
+                        <div class="result ${resultClass}">
+                            <h3>${statusIcon} Test ${statusText}</h3>
+                            <p><strong>Exit Code:</strong> ${data.exitCode}</p>
+                            <p><strong>Timestamp:</strong> ${data.timestamp}</p>
+                        </div>
+                        
+                        ${data.output ? `
+                            <div class="result">
+                                <h3>📋 Output:</h3>
+                                <pre>${data.output}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        ${data.error ? `
+                            <div class="result error">
+                                <h3>⚠️ Error Output:</h3>
+                                <pre>${data.error}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="result">
+                            <h3>📝 Test Summary:</h3>
+                            <p>This test validates the DELETE /customers/:id endpoint with deletion verification, 404 checks, and error cases including invalid IDs and non-existent customers.</p>
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                alert('Error running DELETE test: ' + error.message);
+            }
+        }
+
+        async function runResetTest() {
+            try {
+                // Show loading message
+                const loadingWindow = window.open('', '_blank');
+                loadingWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>RESET Endpoint Test Results</title>
+                            <style>
+                                body { 
+                                    font-family: Arial, sans-serif; 
+                                    margin: 20px; 
+                                    background-color: #f5f5f5;
+                                }
+                                .container { 
+                                    background-color: white; 
+                                    padding: 20px; 
+                                    border-radius: 8px; 
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                }
+                                .loading { 
+                                    text-align: center; 
+                                    color: #666; 
+                                }
+                                .result { 
+                                    background-color: #f8f9fa; 
+                                    padding: 15px; 
+                                    border-radius: 5px; 
+                                    border-left: 4px solid #007bff;
+                                    margin: 10px 0;
+                                }
+                                .success { 
+                                    border-left-color: #28a745; 
+                                }
+                                .error { 
+                                    border-left-color: #dc3545; 
+                                }
+                                pre { 
+                                    background-color: #f8f9fa; 
+                                    padding: 10px; 
+                                    border-radius: 4px; 
+                                    overflow-x: auto;
+                                    white-space: pre-wrap;
+                                    font-size: 12px;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>🧪 RESET Endpoint Test Results</h1>
+                                <div class="loading">
+                                    <p>🔄 Running test-reset-endpoint.js...</p>
+                                    <p>Please wait...</p>
+                                </div>
+                            </div>
+                        </body>
+                    </html>
+                `);
+
+                // Execute the test
+                const response = await fetch('/test-reset');
+                const data = await response.json();
+
+                // Update the window with results
+                const resultClass = data.success ? 'success' : 'error';
+                const statusIcon = data.success ? '✅' : '❌';
+                const statusText = data.success ? 'Success' : 'Failed';
+
+                loadingWindow.document.body.innerHTML = `
+                    <div class="container">
+                        <h1>🧪 RESET Endpoint Test Results</h1>
+                        <div class="result ${resultClass}">
+                            <h3>${statusIcon} Test ${statusText}</h3>
+                            <p><strong>Exit Code:</strong> ${data.exitCode}</p>
+                            <p><strong>Timestamp:</strong> ${data.timestamp}</p>
+                        </div>
+                        
+                        ${data.output ? `
+                            <div class="result">
+                                <h3>📋 Output:</h3>
+                                <pre>${data.output}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        ${data.error ? `
+                            <div class="result error">
+                                <h3>⚠️ Error Output:</h3>
+                                <pre>${data.error}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="result">
+                            <h3>📝 Test Summary:</h3>
+                            <p>This test validates the POST /customers/reset endpoint including database reset, customer count verification, default data validation, sequential ID verification, and idempotency testing.</p>
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                alert('Error running RESET test: ' + error.message);
+            }
+        }
+
+        async function runApiKeyTest() {
+            try {
+                // Show loading message
+                const loadingWindow = window.open('', '_blank');
+                loadingWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>API Key Test Results</title>
+                            <style>
+                                body { 
+                                    font-family: Arial, sans-serif; 
+                                    margin: 20px; 
+                                    background-color: #f5f5f5;
+                                }
+                                .container { 
+                                    background-color: white; 
+                                    padding: 20px; 
+                                    border-radius: 8px; 
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                }
+                                .loading { 
+                                    text-align: center; 
+                                    color: #666; 
+                                }
+                                .result { 
+                                    background-color: #f8f9fa; 
+                                    padding: 15px; 
+                                    border-radius: 5px; 
+                                    border-left: 4px solid #007bff;
+                                    margin: 10px 0;
+                                }
+                                .success { 
+                                    border-left-color: #28a745; 
+                                }
+                                .error { 
+                                    border-left-color: #dc3545; 
+                                }
+                                pre { 
+                                    background-color: #f8f9fa; 
+                                    padding: 10px; 
+                                    border-radius: 4px; 
+                                    overflow-x: auto;
+                                    white-space: pre-wrap;
+                                    font-size: 12px;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>🔐 API Key Test Results</h1>
+                                <div class="loading">
+                                    <p>🔄 Running test-api-key.js...</p>
+                                    <p>Please wait...</p>
+                                </div>
+                            </div>
+                        </body>
+                    </html>
+                `);
+
+                // Execute the test
+                const response = await fetch('/test-api-key');
+                const data = await response.json();
+
+                // Update the window with results
+                const resultClass = data.success ? 'success' : 'error';
+                const statusIcon = data.success ? '✅' : '❌';
+                const statusText = data.success ? 'Success' : 'Failed';
+
+                loadingWindow.document.body.innerHTML = `
+                    <div class="container">
+                        <h1>🔐 API Key Test Results</h1>
+                        
+                        <div class="result">
+                            <h3>📋 Equivalent cURL Commands</h3>
+                            <p>The following cURL commands demonstrate the same tests performed by the API key middleware:</p>
+                            
+                            <h4>1. Test WITHOUT API key (should return 401):</h4>
+                            <pre style="background-color: #2d3748; color: #e2e8f0; padding: 10px; border-radius: 4px; margin: 10px 0;">curl -s http://localhost:4000/customers</pre>
+                            
+                            <h4>2. Test with INVALID API key (should return 403):</h4>
+                            <pre style="background-color: #2d3748; color: #e2e8f0; padding: 10px; border-radius: 4px; margin: 10px 0;">curl -s -H "x-api-key: invalid-key" http://localhost:4000/customers</pre>
+                            
+                            <h4>3. Test with VALID API key (should return 200):</h4>
+                            <pre style="background-color: #2d3748; color: #e2e8f0; padding: 10px; border-radius: 4px; margin: 10px 0;">curl -s -H "x-api-key: your-secret-api-key-here" http://localhost:4000/customers</pre>
+                        </div>
+                        
+                        <div class="result ${resultClass}">
+                            <h3>${statusIcon} Test ${statusText}</h3>
+                            <p><strong>Exit Code:</strong> ${data.exitCode}</p>
+                            <p><strong>Timestamp:</strong> ${data.timestamp}</p>
+                        </div>
+                        
+                        ${data.output ? `
+                            <div class="result">
+                                <h3>📋 Output:</h3>
+                                <pre>${data.output}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        ${data.error ? `
+                            <div class="result error">
+                                <h3>⚠️ Error Output:</h3>
+                                <pre>${data.error}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="result">
+                            <h3>📝 Test Summary:</h3>
+                            <p>This test validates API key middleware functionality including 401 errors for missing keys, 403 errors for invalid keys, and 200 success for valid keys.</p>
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                alert('Error running API Key test: ' + error.message);
+            }
+        }
+
+        async function runApiParameterTest() {
+            try {
+                // Show loading message
+                const loadingWindow = window.open('', '_blank');
+                loadingWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>API Parameter Testing Results</title>
+                            <style>
+                                body { 
+                                    font-family: Arial, sans-serif; 
+                                    margin: 20px; 
+                                    background-color: #f5f5f5;
+                                }
+                                .container { 
+                                    background-color: white; 
+                                    padding: 20px; 
+                                    border-radius: 8px; 
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                }
+                                .loading { 
+                                    text-align: center; 
+                                    color: #666; 
+                                }
+                                .result { 
+                                    background-color: #f8f9fa; 
+                                    padding: 15px; 
+                                    border-radius: 5px; 
+                                    border-left: 4px solid #007bff;
+                                    margin: 10px 0;
+                                }
+                                .success { 
+                                    border-left-color: #28a745; 
+                                }
+                                .error { 
+                                    border-left-color: #dc3545; 
+                                }
+                                pre { 
+                                    background-color: #f8f9fa; 
+                                    padding: 10px; 
+                                    border-radius: 4px; 
+                                    overflow-x: auto;
+                                    white-space: pre-wrap;
+                                    font-size: 12px;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>🧪 API Parameter Testing Results</h1>
+                                <div class="loading">
+                                    <p>🔄 Running test-api-parameter.js...</p>
+                                    <p>Please wait...</p>
+                                </div>
+                            </div>
+                        </body>
+                    </html>
+                `);
+
+                // Execute the test
+                const response = await fetch('/test-api-parameter');
+                const data = await response.json();
+
+                // Update the window with results
+                const resultClass = data.success ? 'success' : 'error';
+                const statusIcon = data.success ? '✅' : '❌';
+                const statusText = data.success ? 'Success' : 'Failed';
+
+                loadingWindow.document.body.innerHTML = `
+                    <div class="container">
+                        <h1>🧪 API Parameter Testing Results</h1>
+                        <div class="result ${resultClass}">
+                            <h3>${statusIcon} Test ${statusText}</h3>
+                            <p><strong>Exit Code:</strong> ${data.exitCode}</p>
+                            <p><strong>Timestamp:</strong> ${data.timestamp}</p>
+                        </div>
+                        
+                        ${data.output ? `
+                            <div class="result">
+                                <h3>📋 Output:</h3>
+                                <pre>${data.output}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        ${data.error ? `
+                            <div class="result error">
+                                <h3>⚠️ Error Output:</h3>
+                                <pre>${data.error}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="result">
+                            <h3>� Test Summary:</h3>
+                            <p>This test validates all combinations of API key configuration including environment variables and command line arguments with detailed documentation and implementation examples.</p>
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                alert('Error running API Parameter test: ' + error.message);
+            }
+        }
+
+        async function runSearchEndpointTest() {
+            try {
+                // Show loading message
+                const loadingWindow = window.open('', '_blank');
+                loadingWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>Search Endpoint Testing Results</title>
+                            <style>
+                                body { 
+                                    font-family: Arial, sans-serif; 
+                                    margin: 20px; 
+                                    background-color: #f5f5f5;
+                                }
+                                .container { 
+                                    background-color: white; 
+                                    padding: 20px; 
+                                    border-radius: 8px; 
+                                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                }
+                                .loading { 
+                                    text-align: center; 
+                                    color: #666; 
+                                }
+                                .result { 
+                                    background-color: #f8f9fa; 
+                                    padding: 15px; 
+                                    border-radius: 5px; 
+                                    border-left: 4px solid #fd7e14;
+                                    margin: 10px 0;
+                                }
+                                .success { 
+                                    border-left-color: #28a745; 
+                                }
+                                .error { 
+                                    border-left-color: #dc3545; 
+                                }
+                                pre { 
+                                    background-color: #f8f9fa; 
+                                    padding: 10px; 
+                                    border-radius: 4px; 
+                                    overflow-x: auto;
+                                    white-space: pre-wrap;
+                                    font-size: 12px;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>🔍 Search Endpoint Testing Results</h1>
+                                <div class="loading">
+                                    <p>🔄 Running test-search-endpoint.js...</p>
+                                    <p>Please wait...</p>
+                                </div>
+                            </div>
+                        </body>
+                    </html>
+                `);
+
+                // Execute the test
+                const response = await fetch('/test-search-endpoint');
+                const data = await response.json();
+
+                // Update the window with results
+                const resultClass = data.success ? 'success' : 'error';
+                const statusIcon = data.success ? '✅' : '❌';
+                const statusText = data.success ? 'Success' : 'Failed';
+
+                loadingWindow.document.body.innerHTML = `
+                    <div class="container">
+                        <h1>🔍 Search Endpoint Testing Results</h1>
+                        <div class="result ${resultClass}">
+                            <h3>${statusIcon} Test ${statusText}</h3>
+                            <p><strong>Exit Code:</strong> ${data.exitCode}</p>
+                            <p><strong>Timestamp:</strong> ${data.timestamp}</p>
+                        </div>
+                        
+                        ${data.output ? `
+                            <div class="result">
+                                <h3>📋 Output:</h3>
+                                <pre>${data.output}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        ${data.error ? `
+                            <div class="result error">
+                                <h3>⚠️ Error Output:</h3>
+                                <pre>${data.error}</pre>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="result">
+                            <h3>📝 Test Summary:</h3>
+                            <p>This test validates the GET /customers/find endpoint with all scenarios including query validation, field restrictions, and response handling. No API key required.</p>
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                alert('Error running Search Endpoint test: ' + error.message);
+            }
+        }
+                                }
+                                .success { 
+                                    border-left-color: #28a745; 
+                                }
+                                .warning { 
+                                    border-left-color: #ffc107; 
+                                }
+                                .error { 
+                                    border-left-color: #dc3545; 
+                                }
+                                pre { 
+                                    background-color: #2d3748; 
+                                    color: #e2e8f0; 
+                                    padding: 15px; 
+                                    border-radius: 4px; 
+                                    overflow-x: auto;
+                                    white-space: pre-wrap;
+                                    font-size: 12px;
+                                    margin: 10px 0;
+                                }
+                                .command-section {
+                                    background-color: #e7f3ff;
+                                    padding: 15px;
+                                    border-radius: 5px;
+                                    margin: 15px 0;
+                                }
+                                h3 { color: #333; margin-top: 0; }
+                                h4 { color: #666; margin-bottom: 5px; }
+                                .status { font-weight: bold; }
+                                .pass { color: #28a745; }
+                                .fail { color: #dc3545; }
+                                .endpoint-url { 
+                                    background-color: #fd7e14; 
+                                    color: white; 
+                                    padding: 5px 10px; 
+                                    border-radius: 3px; 
+                                    font-family: monospace;
+                                    display: inline-block;
+                                    margin: 5px 0;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>🔍 Search Endpoint Testing - Stage 12 Results</h1>
+                                
+                                <div class="test-section success">
+                                    <h3>✅ Search Endpoint Overview</h3>
+                                    <div class="endpoint-url">GET /customers/find</div>
+                                    <p><strong>Purpose:</strong> Search for customers using query parameters</p>
+                                    <p><strong>Security:</strong> No API key required</p>
+                                    <p><strong>Supported Fields:</strong> id, email, password</p>
+                                    <p><strong>Query Limit:</strong> Single name/value pair only</p>
+                                </div>
+
+                                <div class="test-section">
+                                    <h3>🧪 Test Scenario 1: No Query String</h3>
+                                    <div class="command-section">
+                                        <h4>cURL Command:</h4>
+                                        <pre>curl -s "http://localhost:4000/customers/find"</pre>
+                                        <h4>Expected Result:</h4>
+                                        <p class="status fail">❌ Should return error message</p>
+                                        <h4>Expected Response:</h4>
+                                        <pre>{
+  "success": false,
+  "error": "Query string is required",
+  "message": "query string is required"
+}</pre>
+                                    </div>
+                                </div>
+
+                                <div class="test-section">
+                                    <h3>🧪 Test Scenario 2: Invalid Field Name</h3>
+                                    <div class="command-section">
+                                        <h4>cURL Command:</h4>
+                                        <pre>curl -s "http://localhost:4000/customers/find?invalidfield=test"</pre>
+                                        <h4>Expected Result:</h4>
+                                        <p class="status fail">❌ Should reject invalid field names</p>
+                                        <h4>Expected Response:</h4>
+                                        <pre>{
+  "success": false,
+  "error": "Invalid query parameter",
+  "message": "name must be one of the following (id, email, password)"
+}</pre>
+                                    </div>
+                                </div>
+
+                                <div class="test-section">
+                                    <h3>🧪 Test Scenario 3: Search by ID (Valid)</h3>
+                                    <div class="command-section">
+                                        <h4>cURL Command:</h4>
+                                        <pre>curl -s "http://localhost:4000/customers/find?id=2"</pre>
+                                        <h4>Expected Result:</h4>
+                                        <p class="status pass">✅ Should find customer with ID 2</p>
+                                        <h4>Expected Response:</h4>
+                                        <pre>{
+  "success": true,
+  "count": 1,
+  "data": [
+    {
+      "customerId": 2,
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "email": "jane.smith@example.com",
+      ...
+    }
+  ]
+}</pre>
+                                    </div>
+                                </div>
+
+                                <div class="test-section">
+                                    <h3>🧪 Test Scenario 4: Search by Email (Valid)</h3>
+                                    <div class="command-section">
+                                        <h4>cURL Command:</h4>
+                                        <pre>curl -s "http://localhost:4000/customers/find?email=jane.smith@example.com"</pre>
+                                        <h4>Expected Result:</h4>
+                                        <p class="status pass">✅ Should find customer with matching email</p>
+                                        <h4>Expected Response:</h4>
+                                        <pre>{
+  "success": true,
+  "count": 1,
+  "data": [customer object with matching email]
+}</pre>
+                                    </div>
+                                </div>
+
+                                <div class="test-section">
+                                    <h3>🧪 Test Scenario 5: Search by Password</h3>
+                                    <div class="command-section">
+                                        <h4>cURL Command:</h4>
+                                        <pre>curl -s "http://localhost:4000/customers/find?password=anything"</pre>
+                                        <h4>Expected Result:</h4>
+                                        <p class="status fail">❌ Should return no matches (customers don't have passwords)</p>
+                                        <h4>Expected Response:</h4>
+                                        <pre>{
+  "success": false,
+  "error": "No matches found",
+  "message": "no matching customer documents found"
+}</pre>
+                                    </div>
+                                </div>
+
+                                <div class="test-section">
+                                    <h3>🧪 Test Scenario 6: Non-Matching Value</h3>
+                                    <div class="command-section">
+                                        <h4>cURL Command:</h4>
+                                        <pre>curl -s "http://localhost:4000/customers/find?email=nonexistent@example.com"</pre>
+                                        <h4>Expected Result:</h4>
+                                        <p class="status fail">❌ Should return no matches</p>
+                                        <h4>Expected Response:</h4>
+                                        <pre>{
+  "success": false,
+  "error": "No matches found",
+  "message": "no matching customer documents found"
+}</pre>
+                                    </div>
+                                </div>
+
+                                <div class="test-section">
+                                    <h3>🧪 Test Scenario 7: Multiple Query Parameters</h3>
+                                    <div class="command-section">
+                                        <h4>cURL Command:</h4>
+                                        <pre>curl -s "http://localhost:4000/customers/find?id=2&email=test@example.com"</pre>
+                                        <h4>Expected Result:</h4>
+                                        <p class="status fail">❌ Should reject multiple parameters</p>
+                                        <h4>Expected Response:</h4>
+                                        <pre>{
+  "success": false,
+  "error": "Single query parameter only",
+  "message": "Only a single name/value pair is supported in the query string"
+}</pre>
+                                    </div>
+                                </div>
+
+                                <div class="test-section warning">
+                                    <h3>⚙️ How to Test the Search Endpoint</h3>
+                                    <ol>
+                                        <li><strong>Ensure server is running:</strong> <code>node server.js</code></li>
+                                        <li><strong>Open a new terminal</strong> for testing commands</li>
+                                        <li><strong>Run the cURL commands</strong> listed above</li>
+                                        <li><strong>Verify responses</strong> match expected results</li>
+                                        <li><strong>Check customer IDs:</strong> Use <code>curl -s -H "x-api-key: your-secret-api-key-here" http://localhost:4000/customers</code> to see available IDs</li>
+                                    </ol>
+                                </div>
+
+                                <div class="test-section">
+                                    <h3>🔧 Advanced Testing Examples</h3>
+                                    <div class="command-section">
+                                        <h4>Get Available Customer Data:</h4>
+                                        <pre>curl -s -H "x-api-key: your-secret-api-key-here" http://localhost:4000/customers | jq</pre>
+                                        
+                                        <h4>Search by Specific Customer ID:</h4>
+                                        <pre>curl -s "http://localhost:4000/customers/find?id=3" | jq</pre>
+                                        
+                                        <h4>Search with Pretty JSON Output:</h4>
+                                        <pre>curl -s "http://localhost:4000/customers/find?email=john.doe@example.com" | jq</pre>
+                                        
+                                        <h4>Test Invalid ID (Non-numeric):</h4>
+                                        <pre>curl -s "http://localhost:4000/customers/find?id=abc" | jq</pre>
+                                    </div>
+                                </div>
+
+                                <div class="test-section error">
+                                    <h3>🚨 Important Notes</h3>
+                                    <ul>
+                                        <li><strong>No API Key Required:</strong> This endpoint is accessible without authentication</li>
+                                        <li><strong>Exact Matching:</strong> Values must match exactly (case-sensitive for strings)</li>
+                                        <li><strong>Single Parameter Only:</strong> Multiple query parameters will be rejected</li>
+                                        <li><strong>Field Validation:</strong> Only 'id', 'email', and 'password' fields are accepted</li>
+                                        <li><strong>ID Mapping:</strong> 'id' parameter searches the 'customerId' field in the database</li>
+                                        <li><strong>Route Priority:</strong> This endpoint is positioned before /customers/:id to avoid conflicts</li>
+                                    </ul>
+                                </div>
+
+                                <div class="test-section">
+                                    <h3>📝 Implementation Details</h3>
+                                    <h4>Server Route:</h4>
+                                    <pre>app.get('/customers/find', async (req, res) => {
+    // No requireApiKey middleware
+    // Query validation
+    // Single parameter check
+    // Field validation
+    // Database search
+    // Response formatting
+});</pre>
+                                    <h4>Supported Search Fields:</h4>
+                                    <pre>const allowedProperties = ['id', 'email', 'password'];</pre>
+                                    <h4>Database Mapping:</h4>
+                                    <pre>// 'id' maps to 'customerId' in database
+// 'email' searches email field directly
+// 'password' always returns empty (no password field exists)</pre>
+                                </div>
+                            </div>
+                        </body>
+                    </html>
+                `);
+
+            } catch (error) {
+                alert('Error displaying Search Endpoint test information: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

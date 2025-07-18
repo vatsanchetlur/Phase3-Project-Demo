@@ -1,0 +1,167 @@
+{
+  "info": {
+    "name": "Customer REST API",
+    "description": "Complete CRUD operations for customer management",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Customers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/customers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["customers"]
+        }
+      }
+    },
+    {
+      "name": "Get Customer by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/customers/:id",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["customers", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "REPLACE_WITH_ACTUAL_ID"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create New Customer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phone\": \"1234567890\",\n  \"address\": {\n    \"street\": \"123 Main St\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"zipCode\": \"10001\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/customers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["customers"]
+        }
+      }
+    },
+    {
+      "name": "Update Customer",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"John Updated\",\n  \"lastName\": \"Doe Updated\",\n  \"email\": \"john.updated@example.com\",\n  \"phone\": \"0987654321\",\n  \"address\": {\n    \"street\": \"456 Oak Ave\",\n    \"city\": \"Los Angeles\",\n    \"state\": \"CA\",\n    \"zipCode\": \"90210\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/customers/:id",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["customers", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "REPLACE_WITH_ACTUAL_ID"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete Customer",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/customers/:id",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["customers", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "REPLACE_WITH_ACTUAL_ID"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Reset Database (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/reset",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["reset"]
+        }
+      }
+    },
+    {
+      "name": "Reset Database (POST)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/customers/reset",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["customers", "reset"]
+        }
+      }
+    },
+    {
+      "name": "Test Validation Error",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"A\",\n  \"lastName\": \"\",\n  \"email\": \"invalid-email\",\n  \"phone\": \"abc123\",\n  \"address\": {\n    \"street\": \"\",\n    \"city\": \"Seattle\",\n    \"state\": \"WA\",\n    \"zipCode\": \"98101\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/customers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["customers"]
+        }
+      }
+    }
+  ]
+}
