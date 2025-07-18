@@ -125,14 +125,19 @@
             <p><strong>API Key:</strong> Required for all endpoints (x-api-key header)</p>
         </div>
 
+        <div class="info-box" style="background-color: #fff8e6; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid #ffc107;">
+            <strong>🌐 Web UI Testing:</strong> All web interface buttons ("Display All Customers", "Test with ID", "Run POST Test", etc.) 
+            use the browser's native <strong>Fetch API</strong> to make requests to the server. These functions include 
+            cache-busting parameters and proper headers to ensure accurate results.
+        </div>
+
         <h2>📋 Available API Endpoints</h2>
         
         <div class="endpoint">
             <span class="method post">POST</span>
             <span class="url">/customers/reset</span>
             <div class="description">Reset customer collection to 3 example records</div>
-            <span class="test-link disabled">🔄 Use API client (POST request required)</span>
-            <a href="javascript:void(0)" class="test-link" onclick="runResetTest(); return false;" style="margin-left: 10px;">🧪 Run RESET Test</a>
+            <a href="javascript:void(0)" class="test-link" onclick="runResetTest(); return false;">🧪 Run RESET Test</a>
         </div>
 
         <div class="endpoint">
@@ -153,40 +158,35 @@
             <span class="method post">POST</span>
             <span class="url">/customers</span>
             <div class="description">Create a new customer record</div>
-            <div class="description">
-                <strong>Required JSON fields:</strong>
-                <pre style="background-color: #f8f9fa; padding: 10px; border-radius: 4px; margin: 10px 0; font-size: 12px;">
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john.doe@example.com",
-  "phone": "1234567890",
-  "address": {
-    "street": "123 Main St",
-    "city": "New York",
-    "state": "NY",
-    "zipCode": "10001"
-  }
-}</pre>
-            </div>
-            <span class="test-link disabled">📝 Use API client (POST request required)</span>
-            <a href="javascript:void(0)" class="test-link" onclick="runTestConnection(); return false;" style="margin-left: 10px;">🧪 Run POST Test</a>
+            <a href="javascript:void(0)" class="test-link" onclick="runTestConnection(); return false;">🧪 Run POST Test</a>
         </div>
 
         <div class="endpoint">
             <span class="method put">PUT</span>
             <span class="url">/customers/:id</span>
             <div class="description">Update an existing customer by their ID</div>
-            <span class="test-link disabled">📝 Use API client (PUT request required)</span>
-            <a href="javascript:void(0)" class="test-link" onclick="runPutTest(); return false;" style="margin-left: 10px;">🧪 Run PUT Test</a>
+        </div>
+
+        <div class="info-box" style="background-color: #f8f5ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid #6c5ce7;">
+            <strong>🔄 PUT Request Note:</strong> Due to browser caching issues with PUT requests, I am using <strong>curl</strong> 
+            for reliable testing of the PUT endpoint. The curl command approach ensures proper cache control and consistent updates 
+            to the database:
+            <pre style="background-color: #2d3748; color: #e2e8f0; padding: 10px; border-radius: 4px; margin: 10px 0; font-size: 12px;">curl -X PUT "http://localhost:4000/customers/1" \
+-H "Content-Type: application/json" \
+-H "x-api-key: your-secret-api-key-here" \
+-d '{"firstName":"Updated Name","lastName":"Updated","email":"updated@example.com"}'</pre>
         </div>
 
         <div class="endpoint">
             <span class="method delete">DELETE</span>
             <span class="url">/customers/:id</span>
             <div class="description">Delete a customer by their ID</div>
-            <span class="test-link disabled">⚠️ Use API client (DELETE request required)</span>
-            <a href="javascript:void(0)" class="test-link" onclick="runDeleteTest(); return false;" style="margin-left: 10px;">🧪 Run DELETE Test</a>
+            <a href="javascript:void(0)" class="test-link" onclick="runDeleteTest(); return false;">🧪 Run DELETE Test</a>
+        </div>
+
+        <div class="info-box" style="background-color: #f0f8ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid #007bff;">
+            <strong>📋 Note:</strong> All API testing scripts in this project use <strong>Axios</strong>, a popular JavaScript HTTP client, 
+            to make requests and validate responses. Axios provides a clean Promise-based API for HTTP requests and robust error handling.
         </div>
 
         <h2> API Key Protection - Optional Work</h2>
